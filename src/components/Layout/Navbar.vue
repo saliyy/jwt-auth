@@ -1,11 +1,11 @@
 <template>
  <header>
-     <span class="logo">Social Network</span>
+     <span class="logo">Simple Blog</span>
         <nav>
             <a href="#">Статьи</a>
             <a href="#">Категории</a>
-            <a href="#">что-то 1</a>
-            <a href="#">что-то два</a>
+            <a href="#">Топ</a>
+            <a href="#">Рекомендуюмое для меня</a>
         </nav>
     </header>
 </template>
