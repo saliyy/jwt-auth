@@ -1,6 +1,6 @@
 const userState = {
     state: {
-        name: '123',
+        name: '',
         email: '',
         id: null,
         accessToken: '',
@@ -8,11 +8,6 @@ const userState = {
     mutations: {
         setAccessToken(state, accessToken) {
             state.accessToken = accessToken
-        }
-    },
-    actions: {
-        dump(state) {
-            console.dir(state)
         }
     }
 }

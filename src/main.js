@@ -3,16 +3,15 @@ import App from './App.vue'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import store from "./store"
-import setupInterceptors from "./api/auth-interceptors"
-
+import setupJWTInterceptors from "./api/auth-interceptors"
+import axiosInstance from './api';
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 
+setupJWTInterceptors(store)
 
-
-
-setupInterceptors(store)
+Vue.prototype.$axios = axiosInstance
 
 new Vue({
   render: h => h(App),

@@ -1,15 +1,18 @@
 <template>
   <div id="app">
-    <!-- <router-view /> -->
+    <span></span>
   </div>
 </template>
 
 <script>
 export default {
   name: 'App',
-  created() {
-    console.dir(this.$store.state.user)
-  }
+  data() {
+    return {
+      obj: {}
+    }
+  },
+  created() {}
 }
 </script>
 

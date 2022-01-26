@@ -1,10 +1,13 @@
-import axios from "axios"
+import axiosInstance from "."
 
 const setup = (store) => {
     console.log(store)
-    axios.interceptors.request.use(
+    axiosInstance.interceptors.request.use(
         (config) => {
-            console.log(config)
+            return config
+        },
+        (error) => {
+            Promise.reject(error)
         }
     ) 
 }
