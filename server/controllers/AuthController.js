@@ -38,7 +38,7 @@ class AuthController {
     }
 
     async refresh(req, res) {
-
+        
     }
 }
 
