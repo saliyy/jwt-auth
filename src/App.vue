@@ -6,7 +6,10 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created() {
+    console.dir(this.$store.state.user)
+  }
 }
 </script>
 
