@@ -1,13 +1,18 @@
 const userState = {
     state: {
-        name: '',
-        email: '',
-        id: null,
-        accessToken: '',
+        user: {
+            name: '',
+            id: null,
+            email: ''
+        },
+        isLoggedIn: false
     },
     mutations: {
-        setAccessToken(state, accessToken) {
-            state.accessToken = accessToken
+        setLoggedIn(state, logged) {
+            state.isLoggedIn = logged
+        },
+        setUser(state, userData) {
+            state.user = userData
         }
     }
 }

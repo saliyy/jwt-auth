@@ -9,8 +9,12 @@ router.post('/logout', authController.logout)
 router.get('/refresh', authController.refresh)
 router.get('/someshit', (req, res) => {
     res.send({
-        a: 1,
-        b: 2
+        user: {
+            id: 123,
+            email: "ahaha@gmail.com",
+            name: "Хуй"
+        },
+        accessToken: "dasd23e12fdawd22e12edqdasd"
     })
 })
 

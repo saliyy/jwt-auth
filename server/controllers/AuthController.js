@@ -18,13 +18,18 @@ class AuthController {
     }
 
     async login(req, res) {
-        const { email, password } = req.body
+        try {
+            const { email, password } = req.body
 
-        const userData = await authService.login(email, password)
+            const userData = await authService.login(email, password)
 
-        res.cookie("refreshToken", userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+            res.cookie("refreshToken", userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
 
-        return res.json(userData)
+            return res.json(userData)
+        }catch (ex) {
+            throw  new Error("fuck off")
+        }
+
     }
 
     async logout(req, res) {
