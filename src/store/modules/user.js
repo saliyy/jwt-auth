@@ -8,11 +8,9 @@ const userState = {
         isLoggedIn: false
     },
     mutations: {
-        setLoggedIn(state, logged) {
-            state.isLoggedIn = logged
-        },
         setUser(state, userData) {
             state.user = userData
+            state.isLoggedIn = true
         }
     }
 }

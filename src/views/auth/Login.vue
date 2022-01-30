@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import AuthService from '../../services/auth-service.js'
+import AuthService from "../../services/auth-service"
 export default {
     name: 'Login',
     data() { 
@@ -29,9 +29,10 @@ export default {
         }
     },
     methods: {
-        async login() {
-           const res = await AuthService.login(this.email, this.password)
-          console.log(res)
+        login() {
+            AuthService.login(this.email, this.password).then((user) => {
+                alert("вы успешно вошли в систему, у ассаламу алейкум дорогой брат " + user.name)
+            })
         }
     }
 }

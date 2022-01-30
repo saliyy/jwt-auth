@@ -5,7 +5,7 @@ const setupJWTInterceptors = (store) => {
     store
     axiosInstance.interceptors.request.use(
         (config) => {
-            // config.headers.Authorization = `Bearer ${localStorage.getItem("x-access-token")}`
+            config.headers.Authorization = `Bearer ${localStorage.getItem("x-access-token")}`
             return config
         },
         (error) => {

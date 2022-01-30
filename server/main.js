@@ -3,20 +3,23 @@ const express = require("express")
 const mongoose = require("mongoose")
 const cookieParser = require("cookie-parser")
 const cors = require("cors")
-const router = require("./routes/index")
+const authRoutes = require("./routes/auth")
+const mainApiRoutes = require("./routes/mainApi")
 var bodyParser = require('body-parser')
 
-
+// config app
 const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors())
 
+// routes
+app.use('/auth', authRoutes)
+app.use('/api', mainApiRoutes)
+
+// server start listening
 const PORT = process.env.PORT || 5000
-
-app.use('/api', router)
-
 const start = async () => {
     
     try {

@@ -6,7 +6,6 @@ const UserDto = require("../dtos/UserDto")
 
 class AuthService {
     async registration(email, password, name) {
-
         let user = await UserModel.findOne({email: email})
 
         if (user) {
@@ -28,6 +27,7 @@ class AuthService {
 
 
     async login(email, password) {
+
         const user = await UserModel.findOne({email: email})
 
         if (!user) {
