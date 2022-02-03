@@ -4,7 +4,7 @@ class AuthService {
     static registration(email, password, name)
     {   
         return new Promise((resolve, reject) => { 
-            return axiosInstance.post("/registration", { email, password, name }).then((res) => {
+            return axiosInstance.post("auth/registration", { email, password, name }).then((res) => {
                 if (res.data && res.data.user) {
                     localStorage.setItem("x-access-token", res.data.accessToken)
                     store.commit("setUser", res.data.user)
@@ -19,7 +19,7 @@ class AuthService {
     static login(email, password)
     {
         return new Promise((resolve, reject) => {
-            return axiosInstance.post("/login", { email, password }).then((res) => {
+            return axiosInstance.post("auth/login", { email, password }).then((res) => {
                 if (res.data && res.data.user) {
                     localStorage.setItem("x-access-token", res.data.accessToken)
                     store.commit("setUser", res.data.user)

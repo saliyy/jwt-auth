@@ -18,8 +18,9 @@ class AuthService {
 
         const userDto = new UserDto(user)
         
-        const tokens = tokenService.generateTokens({ ...userDto })
-
+        const tokens = await tokenService.generateTokens({ ...userDto })
+    
+    
         await tokenService.saveToken(userDto.id, tokens.refreshToken)
 
         return { ...tokens, user: userDto }
@@ -56,8 +57,29 @@ class AuthService {
     }
 
 
-    async refresh() {
+    async refresh(refreshToken) {
 
+        if (!refreshToken) {
+            throw new Error("unothicated")
+        }
+        
+        const userDecodedData = tokenService.verifyRefreshToken(refreshToken)
+    
+        const refreshFromDB = await tokenModel.findOne({refreshToken})
+
+        if (!userDecodedData || !refreshFromDB) {
+            throw new Error("unothicated or user not found")
+        }
+
+        const user = await UserModel.findById(userDecodedData.id)
+
+        const userDto = new UserDto(user)
+        
+        const tokens = await tokenService.generateTokens({ ...userDto })
+    
+        await tokenService.saveToken(userDto.id, tokens.refreshToken)
+
+        return { ...tokens, user: userDto }
     }
 }
 

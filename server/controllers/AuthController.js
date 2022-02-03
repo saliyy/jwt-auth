@@ -13,7 +13,7 @@ class AuthController {
             return res.json(userData)
             
         } catch (ex) {
-            console.error(ex)
+            console.dir(ex)
         }
     }
 
@@ -27,6 +27,7 @@ class AuthController {
 
             return res.json(userData)
         }catch (ex) {
+            console.dir(ex)
             throw  new Error("fuck off")
         }
 
@@ -43,7 +44,17 @@ class AuthController {
     }
 
     async refresh(req, res) {
-        
+        try {
+            const { refreshToken } = req.cookies
+
+            const userData = await authService.refresh(refreshToken)
+    
+            res.cookie("refreshToken", userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+    
+            return res.json(userData)
+        } catch(ex) {
+            res.status(401).send(ex)
+        }
     }
 }
 
