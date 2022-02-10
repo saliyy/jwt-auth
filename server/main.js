@@ -25,7 +25,7 @@ const start = async () => {
     try {
 
         mongoose.connect(process.env.DB_CONNECTION_STRING, () => {
-            console.log("connected!")
+            console.log("db connection succed!")
         })
                 
         app.listen(PORT, () => console.log("server started"))

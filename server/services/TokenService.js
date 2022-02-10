@@ -24,9 +24,9 @@ class TokenService {
         return await tokenModel.create({user: userId, refreshToken})
     }
 
-    static async verifyAccessTokenToken(enteredAccessToken) {
+    static verifyAccessTokenToken(enteredAccessToken) {
         try {
-            return await jwt.verify(enteredAccessToken, process.env.JWT_ACCESS_SECREY_KEY)
+            return jwt.verify(enteredAccessToken, process.env.JWT_ACCESS_SECREY_KEY)
         } catch(ex) {
             return null
         }
