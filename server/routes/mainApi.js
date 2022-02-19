@@ -2,7 +2,6 @@ const Router =  require("express").Router
 const router = new Router()
 const checkTokenMiddleware = require("../middleware/CheckTokenMiddleware")
 
-// middleware
 router.use(checkTokenMiddleware)
 
 

@@ -6,15 +6,9 @@ const UserDto = require("../dtos/UserDto")
 
 class AuthService {
     async registration(email, password, name) {
-        let user = await UserModel.findOne({email: email})
-
-        if (user) {
-            throw new Error("пользователь с таким email уже существует!")
-        }
-
         const hashedPassword = await bcrypt.hash(password, 3)
 
-        user = await UserModel.create({email: email, password: hashedPassword, name: name})
+        let user = await UserModel.create({email: email, password: hashedPassword, name: name})
 
         const userDto = new UserDto(user)
         
@@ -43,7 +37,7 @@ class AuthService {
 
         const userDto = new UserDto(user)
         
-        const tokens = tokenService.generateTokens({ ...userDto })
+        const tokens = await tokenService.generateTokens({ ...userDto })
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken)
 
@@ -51,16 +45,14 @@ class AuthService {
     }
 
     async logout(refreshToken) {
-        const removeResult = await tokenModel.deleteOne({refreshToken})    
-
-        return removeResult
+        return await tokenModel.deleteOne({refreshToken})
     }
 
 
     async refresh(refreshToken) {
 
         if (!refreshToken) {
-            throw new Error("unothicated")
+            throw new Error("unauthenticated")
         }
         
         const userDecodedData = tokenService.verifyRefreshToken(refreshToken)
@@ -68,7 +60,7 @@ class AuthService {
         const refreshFromDB = await tokenModel.findOne({refreshToken})
 
         if (!userDecodedData || !refreshFromDB) {
-            throw new Error("unothicated or user not found")
+            throw new Error("unauthenticated or user not found")
         }
 
         const user = await UserModel.findById(userDecodedData.id)

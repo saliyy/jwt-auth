@@ -15,7 +15,7 @@ app.use(cookieParser())
 app.use(cors())
 
 // routes
-app.use('/api/auth', authRoutes)
+app.use('/auth', authRoutes)
 app.use('/api', mainApiRoutes)
 
 // server start listening

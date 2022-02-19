@@ -1,19 +1,20 @@
 const authService = require("../services/AuthService")
 
 class AuthController {
-    async registration(req, res) 
+    async registration(req, res)
     {
         try {
             const { email, password, name } = req.body
 
             const userData = await authService.registration(email, password, name)
 
-            res.cookie("refreshToken", userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+            res.cookie("refreshToken", userData.refreshToken, { maxAge: process.env.TOKEN_EXPIED_IN, httpOnly: true })
 
             return res.json(userData)
             
         } catch (ex) {
-            console.dir(ex)
+            console.log(ex)
+            return res.status(500).send("server error")
         }
     }
 
@@ -23,12 +24,12 @@ class AuthController {
 
             const userData = await authService.login(email, password)
 
-            res.cookie("refreshToken", userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+            res.cookie("refreshToken", userData.refreshToken, { maxAge: process.env.TOKEN_EXPIED_IN, httpOnly: true })
 
             return res.json(userData)
         }catch (ex) {
             console.dir(ex)
-            throw  new Error("fuck off")
+            return res.status(500).send("server error")
         }
 
     }
@@ -49,7 +50,7 @@ class AuthController {
 
             const userData = await authService.refresh(refreshToken)
     
-            res.cookie("refreshToken", userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+            res.cookie("refreshToken", userData.refreshToken, { maxAge: process.env.TOKEN_EXPIED_IN, httpOnly: true })
     
             return res.json(userData)
         } catch(ex) {
