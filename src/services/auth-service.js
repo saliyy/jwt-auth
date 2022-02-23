@@ -9,9 +9,9 @@ class AuthService {
                     localStorage.setItem("x-access-token", res.data.accessToken)
                     store.commit("setUser", res.data.user)
                     resolve(res.data.user)
-                } else {
-                    reject("errorr!")
                 }
+            }).catch((err) => {
+                reject(err)
             })
         })
     }
@@ -24,9 +24,9 @@ class AuthService {
                     localStorage.setItem("x-access-token", res.data.accessToken)
                     store.commit("setUser", res.data.user)
                     resolve(res.data.user)
-                } else {
-                    reject("errorr!")
                 }
+            }).catch((err) => {
+                reject(err)
             })
         })
     }

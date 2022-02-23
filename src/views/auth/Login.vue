@@ -4,6 +4,15 @@
           <div slot="header">
               <span>Login</span>
           </div>
+          <div v-if="errors.length">
+            <div v-for="(error, i) in errors" :key="i">
+              <el-alert
+                  style="margin-bottom: 10px;"
+                  :title="error"
+                  type="error"
+                  :closable="false" />
+            </div>
+          </div>
           <div class="card-body">
                 <el-input placeholder="Your email" suffix-icon="el-icon-message" v-model="email" />
                 <div style="margin-top: 20px">
@@ -20,18 +29,25 @@
 
 <script>
 import AuthService from "../../services/auth-service"
+// todo подумать как сделать кароче импорт
 export default {
     name: 'Login',
     data() { 
         return {
             password: '',
-            email: ''
+            email: '',
+            errors: []
         }
     },
     methods: {
         login() {
-            AuthService.login(this.email, this.password).then((user) => {
-                alert("вы успешно вошли в систему, у ассаламу алейкум дорогой брат " + user.name)
+          // todo подумать над тем как удобно было бы рендерить ошибки в форме
+            AuthService.login(this.email, this.password).then(() => {
+              this.$router.push({ path: '/' })
+            }).catch((err) => {
+                if (err.data && err.data.errors) {
+                  this.errors = err.data.errors.map(x => x.msg)
+                }
             })
         }
     }
@@ -47,6 +63,7 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
 
 
 </style>
