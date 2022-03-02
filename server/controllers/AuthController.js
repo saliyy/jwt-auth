@@ -13,7 +13,6 @@ class AuthController {
             return res.json(userData)
             
         } catch (ex) {
-            console.log(ex)
             return res.status(500).send("server error")
         }
     }
@@ -28,7 +27,6 @@ class AuthController {
 
             return res.json(userData)
         }catch (ex) {
-            console.dir(ex)
             return res.status(500).send("server error")
         }
 
@@ -51,7 +49,7 @@ class AuthController {
             const userData = await authService.refresh(refreshToken)
     
             res.cookie("refreshToken", userData.refreshToken, { maxAge: process.env.TOKEN_EXPIED_IN, httpOnly: true })
-    
+
             return res.json(userData)
         } catch(ex) {
             res.status(401).send(ex)

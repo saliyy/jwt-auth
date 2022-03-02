@@ -5,7 +5,7 @@ const checkTokenMiddleware = require("../middleware/CheckTokenMiddleware")
 
 router.use(checkTokenMiddleware)
 // main api routes
-router.get('/testJWTmiddleware', (req, res) => { 
+router.get('/testJWTmiddleware', (req, res) => {
     res.send("all is ok!").status(200)
 })
 

@@ -4,9 +4,6 @@ const UserModel = require('../../models/UserModel')
 module.exports = () => {
     return [
         check('email')
-            .notEmpty()
-            .withMessage('email field is required!')
-            .not()
             .custom(async email => {
                 let user = await UserModel.findOne({ email: email })
 

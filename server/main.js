@@ -2,17 +2,17 @@ require('dotenv').config();
 const express = require("express")
 const mongoose = require("mongoose")
 const cookieParser = require("cookie-parser")
-const cors = require("cors")
-const authRoutes = require("./routes/auth")
 const mainApiRoutes = require("./routes/mainApi")
+const authRoutes = require("./routes/auth")
+const cors = require("cors")
 var bodyParser = require('body-parser')
 
 // config app
 const app = express()
+app.use(cors({ origin: "http://localhost:8080", credentials: true }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())
-app.use(cors())
 
 // routes
 app.use('/api/auth', authRoutes)
@@ -25,7 +25,7 @@ const start = async () => {
     try {
 
         mongoose.connect(process.env.DB_CONNECTION_STRING, () => {
-            console.log("db connection succed!")
+            console.log("db connection established!")
         })
                 
         app.listen(PORT, () => console.log("server started"))
