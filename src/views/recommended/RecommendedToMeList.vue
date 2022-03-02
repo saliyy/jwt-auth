@@ -1,10 +1,10 @@
 <template>
-$END$
+  <div>Recommended</div>
 </template>
 
 <script>
 export default {
-name: "RecommendedToMeList"
+  name: "RecommendedToMeList"
 }
 </script>
 

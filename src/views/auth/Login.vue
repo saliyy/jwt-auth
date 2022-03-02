@@ -22,7 +22,7 @@
           <div style="margin-top: 20px">
               <el-button type="primary" plain style="width: 100%" @click="login">Log in</el-button>
           </div>
-           <el-button type="text" @click="this.$router.push({ name: 'Registration' })">Don't have an account? sign in right now</el-button>
+           <el-button type="text" @click="$router.push({ name: 'registration' })">Don't have an account? sign in right now</el-button>
       </el-card>
   </div>
 </template>

@@ -2,17 +2,34 @@ import VueRouter from "vue-router"
 import Vue from "vue"
 Vue.use(VueRouter)
 
-import store from "../store"
-
-const isAuthenticated = () => {
-    return store.getters.isAuthenticated
-}
 
 const routes = [
     {
         name: 'main',
         path: '/',
-        component: () => import('../views/main')
+        component: () => import('../views/main'),
+        children: [
+            {
+                name: 'articles',
+                path: '/articles',
+                component: () => import('../views/articles/ArticlesList')
+            },
+            {
+                name: 'categories',
+                path: '/categories',
+                component: () => import('../views/categories/CategoryList')
+            },
+            {
+                name: 'top',
+                path: '/top',
+                component: () => import('../views/top/TopList')
+            },
+            {
+                name: 'recommended',
+                path: '/recommended',
+                component: () => import('../views/recommended/RecommendedToMeList')
+            }
+        ]
     },
     {
         name: 'login',
@@ -32,10 +49,12 @@ const router = new VueRouter({
     routes
 })
 
+function userIsAuthenticated() {
+    return !!localStorage.getItem('x-access-token')
+}
+
 router.beforeEach((to, from, next) => {
-    if (to.name !== 'login'
-        && to.name !== 'registration'
-        && !isAuthenticated())
+    if (to.path !== '/login' && to.path !== '/registration' && !userIsAuthenticated())
         next({ name: 'login' })
     next()
 })

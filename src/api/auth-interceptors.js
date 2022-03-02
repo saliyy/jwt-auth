@@ -1,8 +1,6 @@
-import axios from "axios"
 import axiosInstance from "."
 
 const setupJWTInterceptors = (store) => {
-    store
     axiosInstance.interceptors.request.use(
         (config) => {
 
@@ -20,13 +18,24 @@ const setupJWTInterceptors = (store) => {
             return config
         },
         error => {
+            const originalRequest = error.config
+
             if (error.response.status === 401) {
-                axios.post("http://127.0.0.1:5000/api/auth/refresh").then((res) => {
+                if (error.config.isRetry) {
+                    window.location = '/login'
+                }
+        
+                axiosInstance.post("api/auth/refresh").then((res) => {
+                    originalRequest.isRetry = true
 
                     localStorage.setItem("x-access-token", res.data.accessToken)
 
                     store.commit('setUser', res.data.user)
 
+                    return axiosInstance.request(originalRequest)
+
+                }).catch(() => {
+                    window.location = '/login'
                 })
             }
             return Promise.reject(error.response)

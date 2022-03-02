@@ -14,8 +14,8 @@ const userState = {
         }
     },
     getters: {
-        isAuthenticated(state) {
-            return state.isLoggedIn === true
+        getUserName(state) {
+            return state.user.name
         }
     }
 }
