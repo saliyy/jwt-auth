@@ -1,11 +1,20 @@
 <template>
  <header>
-     <span class="logo">Social Network</span>
+     <span class="logo">Simple Blog</span>
         <nav>
-            <a href="#">Статьи</a>
-            <a href="#">Категории</a>
-            <a href="#">что-то 1</a>
-            <a href="#">что-то два</a>
+            <a>
+              <router-link to="/articles">Articles</router-link>
+            </a>
+            <a href="#">
+              <router-link to="/categories">Categories</router-link>
+            </a>
+            <a href="#">
+              <router-link to="/top">Top</router-link>
+            </a>
+            <a href="#">
+              <router-link to="/recommended">Recommended to me</router-link>
+            </a>
+          <el-avatar class="avatar" :size="40" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
         </nav>
     </header>
 </template>
@@ -21,6 +30,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+// todo make webpack loader
 @import url('https://fonts.googleapis.com/css?family=Open+Sans|Playfair+Display+SC');
 
 * {
@@ -37,6 +47,7 @@ body {
     font: normal 18px 'Open Sans', sans-serif;
     background: #fafafa;
     color: #333;
+
 }
 
 main {
@@ -71,11 +82,17 @@ span {
         flex-wrap: wrap;
     }
 
+    nav .avatar {
+       position: relative;
+       left: 50px;
+    }
+
         nav a {
             flex-grow: 1;
             text-align: center;
             padding: 1em;
             position: relative;
+            font-size: 18px;
         }
 
         // animmation
