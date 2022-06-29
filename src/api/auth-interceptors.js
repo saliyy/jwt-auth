@@ -1,48 +1,66 @@
-import axiosInstance from "."
+import axiosInstance from '.';
+import AuthService from '../services/auth-service';
 
 const setupJWTInterceptors = (store) => {
-    axiosInstance.interceptors.request.use(
-        (config) => {
+  store;
+  axiosInstance.interceptors.request.use(
+    (config) => {
+      config.headers.Authorization = `Bearer ${localStorage.getItem(
+        'x-access-token'
+      )}`;
 
-            config.headers.Authorization = `Bearer ${localStorage.getItem("x-access-token")}`
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
-            return config
-        },
-        (error) => {
-            return Promise.reject(error)
-        }
-    )
-    
-    axiosInstance.interceptors.response.use(
-        (config) => {
-            return config
-        },
-        error => {
-            const originalRequest = error.config
+  axiosInstance.interceptors.response.use(
+    (config) => {
+      return config;
+    },
+    (error) => {
+      const originalRequest = error.config;
 
-            if (error.response.status === 401) {
-                if (error.config.isRetry) {
-                    window.location = '/login'
-                }
-        
-                axiosInstance.post("api/auth/refresh").then((res) => {
-                    originalRequest.isRetry = true
+      if (
+        error.response.status === 401 &&
+        !originalRequest._isRetry
+      ) {
+        try {
+          originalRequest._isRetry = true;
+          AuthService.refresh().then((res) => {
+            debugger;
+          });
+        } catch (ex) {}
+      }
+    },
+    (error) => {
+      const origRequest = error.config;
 
-                    localStorage.setItem("x-access-token", res.data.accessToken)
+      if (error.response.status === 401 && !origRequest._isRetry) {
+        try {
+          origRequest._isRetry = true;
+          AuthService.refresh().then((res) => {
+            if (res.status === 201) {
+              localStorage.setItem(
+                'x-access-token',
+                res.data.accessToken
+              );
 
-                    store.commit('setUser', res.data.user)
+              config.headers.Authorization = `Bearer ${localStorage.getItem(
+                'x-access-token'
+              )}`;
 
-                    return axiosInstance.request(originalRequest)
-
-                }).catch(() => {
-                    window.location = '/login'
-                })
+              return axiosInstance(originalRequest);
             }
-            return Promise.reject(error.response)
+          });
+        } catch (ex) {
+          return Promise.reject(ex);
         }
-    )
-}
+      }
+    }
+  );
+};
 
-
-export default setupJWTInterceptors
-
+export default setupJWTInterceptors;

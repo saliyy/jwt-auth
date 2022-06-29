@@ -7,65 +7,79 @@
       <div v-if="errors.length">
         <div v-for="(error, i) in errors" :key="i">
           <el-alert
-              style="margin-bottom: 10px;"
-              :title="error"
-              type="error"
-              :closable="false" />
+            style="margin-bottom: 10px"
+            :title="error"
+            type="error"
+            :closable="false"
+          />
         </div>
       </div>
       <div class="card-body">
-        <el-input placeholder="Your email" suffix-icon="el-icon-message" v-model="email" />
-        <el-input placeholder="Your name" clearable style="margin-top: 20px" v-model="name" />
+        <el-input
+          placeholder="Your email"
+          suffix-icon="el-icon-message"
+          v-model="email"
+        />
+        <el-input
+          placeholder="Your name"
+          clearable
+          style="margin-top: 20px"
+          v-model="name"
+        />
         <div style="margin-top: 20px">
-          <el-input placeholder="Your password" v-model="password" show-password></el-input>
+          <el-input
+            placeholder="Your password"
+            v-model="password"
+            show-password
+          ></el-input>
         </div>
       </div>
       <div style="margin-top: 20px">
-        <el-button type="primary" plain style="width: 100%" @click="login">Go!</el-button>
+        <el-button type="primary" plain style="width: 100%" @click="signUp"
+          >Go!</el-button
+        >
       </div>
-      <el-button type="text" @click="$router.push({ name: 'login' })">Have account?</el-button>
+      <el-button type="text" @click="$router.push({ name: 'login' })"
+        >Have account?</el-button
+      >
     </el-card>
   </div>
 </template>
 
 <script>
-import AuthService from "../../services/auth-service"
-// todo подумать как сделать кароче импорт
 export default {
-  name: 'Registration',
+  name: "Registration",
   data() {
     return {
-      password: '',
-      email: '',
-      name: '',
-      errors: []
-    }
+      password: "",
+      email: "",
+      name: "",
+      errors: [],
+    };
   },
   methods: {
-    login() {
-      // todo подумать над тем как удобно было бы рендерить ошибки в форме
-      AuthService.registration(this.email, this.password, this.name).then(() => {
-        this.$router.push({ path: '/' })
-      }).catch((err) => {
-        if (err.data && err.data.errors) {
-          this.errors = err.data.errors.map(x => x.msg)
-        }
-      })
-    }
-  }
-}
+    signUp() {
+      this.$store
+        .dispatch("registration", {
+          email: this.email,
+          password: this.password,
+          name: this.name,
+        })
+        .then((res) => {
+          this.$router.push({ path: "/" });
+        });
+    },
+  },
+};
 </script>
 
 <style lang="scss">
 .center {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 20px;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-
-
 </style>

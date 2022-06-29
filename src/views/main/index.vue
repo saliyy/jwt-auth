@@ -1,37 +1,31 @@
 <template>
   <div>
-    <navbar />
-    {{ userName }}
-    <el-button @click="get">123</el-button>
-    <router-view/>
+    <span>You successfuly authorized! </span>{{ userName }}
+    <el-button @click="get">test auth middleware</el-button>
+    <router-view />
   </div>
 </template>
 
-
 <script>
-import Navbar from "../Layout/Navbar";
 export default {
-    name: "Main",
-  components: {Navbar},
+  name: "Main",
   data() {
-        return {
-
-        }
+    return {};
+  },
+  computed: {
+    userName() {
+      return this.$store.getters.getUserName;
     },
-    computed: {
-      userName() {
-        return this.$store.getters.getUserName
-      },
   },
   created() {
-     // this.get()
+    // this.get()
   },
   methods: {
-      get() {
-        this.$api.get('api/testJWTmiddleware').then((res) => {
-          console.log(res)
-        })
-      }
-  }
-}
+    get() {
+      this.$api.get("testJWTmiddleware").then((res) => {
+        console.log(res);
+      });
+    },
+  },
+};
 </script>
